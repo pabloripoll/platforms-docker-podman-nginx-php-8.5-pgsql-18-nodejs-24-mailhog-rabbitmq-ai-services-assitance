@@ -1,0 +1,11 @@
+.git
+.idea
+.vscode
+.gitignore
+.git
+.gitignore
+.vscode
+compose*.yml
+Dockerfile
+node_modules
+vendor
