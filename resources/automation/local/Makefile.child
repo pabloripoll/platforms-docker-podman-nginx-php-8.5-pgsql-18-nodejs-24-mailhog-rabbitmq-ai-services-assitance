@@ -1,5 +1,5 @@
 ###
-# This Makefile goes inside apirest repository or any sub-directory if it is required to execute parent recipes
+# This Makefile goes inside services repositories or any sub-directory if it is required to execute root manager recipes
 ###
 %:
-	@$(MAKE) -C .. $@
+	@$(MAKE) -C ../.. $@
