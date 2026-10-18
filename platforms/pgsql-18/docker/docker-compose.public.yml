@@ -3,4 +3,4 @@ services:
 
   pgsql:
     ports:
-      - ${COMPOSE_PROJECT_PORT}:5432
+      - ${COMPOSE_PORT}:5432
