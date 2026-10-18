@@ -80,57 +80,57 @@ network-destroy: ## destroys network
 .PHONY: web-hostcheck web-info web-set web-create web-network web-ssh web-start web-stop web-destroy
 
 web-hostcheck: ## shows this project ports availability on local machine for the container
-	cd ./platforms/$(WEB_PLTF) && $(MAKE) port-check
+	cd ./platforms/$(WEBAPP_PLTF) && $(MAKE) port-check
 
 web-info: ## shows the ENGINE related information
-	cd ./platforms/$(WEB_PLTF) && $(MAKE) info
+	cd ./platforms/$(WEBAPP_PLTF) && $(MAKE) info
 
 web-set: ## sets the enviroment file to build the container
-	cd ./platforms/$(WEB_PLTF) && $(MAKE) env-set
+	cd ./platforms/$(WEBAPP_PLTF) && $(MAKE) env-set
 
 web-build: ## builds and ensures changes in the ENGINEfile, build steps, or copied-in files are applied
-	cd ./platforms/$(WEB_PLTF) && $(MAKE) build
+	cd ./platforms/$(WEBAPP_PLTF) && $(MAKE) build
 
 web-create: ## starts up or creates the container for running in detached mode
-	cd ./platforms/$(WEB_PLTF) && $(MAKE) up
+	cd ./platforms/$(WEBAPP_PLTF) && $(MAKE) up
 
 web-network: ## starts up into an existing custom network for container-to-container communication, runnning in detached mode
-	cd ./platforms/$(WEB_PLTF) && $(MAKE) clear network
+	cd ./platforms/$(WEBAPP_PLTF) && $(MAKE) clear network
 
 web-host-gateway: ## starts up for container-to-host communication, runnning in detached mode
 	$(MAKE) web-stop
-	cd ./platforms/$(WEB_PLTF) && $(MAKE) clear host-gateway
+	cd ./platforms/$(WEBAPP_PLTF) && $(MAKE) clear host-gateway
 
 web-ssh: ## enters the container shell
-	cd ./platforms/$(WEB_PLTF) && $(MAKE) ssh
+	cd ./platforms/$(WEBAPP_PLTF) && $(MAKE) ssh
 
 web-start: ## starts the container running
-	cd ./platforms/$(WEB_PLTF) && $(MAKE) start
+	cd ./platforms/$(WEBAPP_PLTF) && $(MAKE) start
 
 web-stop: ## stops the container but its assets will not be destroyed
-	cd ./platforms/$(WEB_PLTF) && $(MAKE) stop
+	cd ./platforms/$(WEBAPP_PLTF) && $(MAKE) stop
 
 web-restart: ## restarts the running container
-	cd ./platforms/$(WEB_PLTF) && $(MAKE) restart
+	cd ./platforms/$(WEBAPP_PLTF) && $(MAKE) restart
 
 web-down: ## stops and removes the container, network and volume established
 	echo ${C_RED}"Attention!"${C_END};
-	echo ${C_YEL}"You're about to stop and remove the "${C_BLU}"$(WEB_PLTF)"${C_END}" container with its network and volume."${C_END};
+	echo ${C_YEL}"You're about to stop and remove the "${C_BLU}"$(WEBAPP_PLTF)"${C_END}" container with its network and volume."${C_END};
 	@echo -n ${C_RED}"Are you sure to proceed? "${C_END}"[y/n]: " && read response && if [ $${response:-'n'} != 'y' ]; then \
         echo ${C_GRN}"O.K.! container continues with its latest status."${C_END}; \
     else \
-		cd ./platforms/$(WEB_PLTF) && $(MAKE) clear; \
-		echo ${C_GRN}"O.K.! $(WEB_PLTF) has been cleared down."${C_END}; \$(ENGINE)
+		cd ./platforms/$(WEBAPP_PLTF) && $(MAKE) clear; \
+		echo ${C_GRN}"O.K.! $(WEBAPP_PLTF) has been cleared down."${C_END}; \$(ENGINE)
 $(ENGINE)
 	fi
 
 web-destroy: ## destroys completly the container
 	echo ${C_RED}"Attention!"${C_END};
-	echo ${C_YEL}"You're about to remove the "${C_BLU}"$(WEB_PLTF)"${C_END}" container and delete its image resource."${C_END};
+	echo ${C_YEL}"You're about to remove the "${C_BLU}"$(WEBAPP_PLTF)"${C_END}" container and delete its image resource."${C_END};
 	@echo -n ${C_RED}"Are you sure to proceed? "${C_END}"[y/n]: " && read response && if [ $${response:-'n'} != 'y' ]; then \
         echo ${C_GRN}"O.K.! container continues with its latest status."${C_END}; \
     else \
-		cd ./platforms/$(WEB_PLTF) && $(MAKE) clear destroy; \
+		cd ./platforms/$(WEBAPP_PLTF) && $(MAKE) clear destroy; \
 		echo -n ${C_GRN}"Do you want to clear $(ENGINE) cache? "${C_END}"[y/n]: " && read response && if [ $${response:-'n'} != 'y' ]; then \
 			echo ${C_YEL}"The following command is delegated to be executed by user:"${C_END}; \
 			echo "$$ $(ENGINE_COMMAND) system prune"; \
