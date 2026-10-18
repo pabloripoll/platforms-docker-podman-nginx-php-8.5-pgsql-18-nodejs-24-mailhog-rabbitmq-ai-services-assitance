@@ -2,8 +2,8 @@ services:
 
   mailer:
     ports:
-      - ${COMPOSE_PROJECT_HOST}::${COMPOSE_PROJECT_PORT:-1025}:1025       # SMTP port — send your app mails here
-      - ${COMPOSE_PROJECT_HOST}::${COMPOSE_PROJECT_APP_PORT:-8025}:8025   # Web UI + API
+      - ${COMPOSE_HOST}::${COMPOSE_PORT:-1025}:1025       # SMTP port — send your app mails here
+      - ${COMPOSE_HOST}::${COMPOSE_APP_PORT:-8025}:8025   # Web UI + API
     networks:
       net: {}
 
@@ -11,7 +11,7 @@ networks:
   net:
     driver: bridge
     external: true
-    name: ${COMPOSE_PROJECT_LEAD}-${COMPOSE_PROJECT_CNET}
+    name: ${COMPOSE_LEAD}-${COMPOSE_CNET}
   default:
     external: true
-    name: ${COMPOSE_PROJECT_LEAD}-${COMPOSE_PROJECT_CNET}
+    name: ${COMPOSE_LEAD}-${COMPOSE_CNET}
