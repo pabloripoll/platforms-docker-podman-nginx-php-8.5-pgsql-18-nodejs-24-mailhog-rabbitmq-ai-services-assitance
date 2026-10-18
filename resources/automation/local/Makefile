@@ -120,7 +120,8 @@ web-down: ## stops and removes the container, network and volume established
         echo ${C_GRN}"O.K.! container continues with its latest status."${C_END}; \
     else \
 		cd ./platforms/$(WEB_PLTF) && $(MAKE) clear; \
-		echo ${C_GRN}"O.K.! $(WEB_PLTF) has been cleared down."${C_END}; \
+		echo ${C_GRN}"O.K.! $(WEB_PLTF) has been cleared down."${C_END}; \$(ENGINE)
+$(ENGINE)
 	fi
 
 web-destroy: ## destroys completly the container
@@ -130,11 +131,11 @@ web-destroy: ## destroys completly the container
         echo ${C_GRN}"O.K.! container continues with its latest status."${C_END}; \
     else \
 		cd ./platforms/$(WEB_PLTF) && $(MAKE) clear destroy; \
-		echo -n ${C_GRN}"Do you want to clear ENGINE cache? "${C_END}"[y/n]: " && read response && if [ $${response:-'n'} != 'y' ]; then \
+		echo -n ${C_GRN}"Do you want to clear $(ENGINE) cache? "${C_END}"[y/n]: " && read response && if [ $${response:-'n'} != 'y' ]; then \
 			echo ${C_YEL}"The following command is delegated to be executed by user:"${C_END}; \
-			echo "$$ $(ENGINE) system prune"; \
+			echo "$$ $(ENGINE_COMMAND) system prune"; \
 		else \
-			$(ENGINE) system prune -f; \
+			$(ENGINE_COMMAND) system prune -f; \
 			echo ${C_GRN}"O.K.! $(ENGINE) cache has been cleared up."${C_END}; \
 		fi \
 	fi
@@ -195,11 +196,11 @@ api-destroy: ## destroys completely the apirest container and its image
         echo ${C_GRN}"O.K.! container continues with its latest status."${C_END}; \
     else \
 		cd ./platforms/$(API_PLTF) && $(MAKE) clear destroy; \
-		echo -n ${C_GRN}"Do you want to clear ENGINE cache? "${C_END}"[y/n]: " && read response && if [ $${response:-'n'} != 'y' ]; then \
+		echo -n ${C_GRN}"Do you want to clear $(ENGINE) cache? "${C_END}"[y/n]: " && read response && if [ $${response:-'n'} != 'y' ]; then \
 			echo ${C_YEL}"The following command is delegated to be executed by user:"${C_END}; \
-			echo "$$ $(ENGINE) system prune"; \
+			echo "$$ $(ENGINE_COMMAND) system prune"; \
 		else \
-			$(ENGINE) system prune -f; \
+			$(ENGINE_COMMAND) system prune -f; \
 			echo ${C_GRN}"O.K.! $(ENGINE) cache has been cleared up."${C_END}; \
 		fi \
 	fi
@@ -256,13 +257,13 @@ db-destroy: ## destroys completly the database container with its data
         echo ${C_GRN}"O.K.! container continues with its latest status."${C_END}; \
     else \
 		cd ./platforms/$(DATABASE_PLTF) && $(MAKE) clear destroy; \
-		echo -n ${C_GRN}"Do you want to clear ENGINE cache? "${C_END}"[y/n]: " && read response && if [ $${response:-'n'} != 'y' ]; then \
+		echo -n ${C_GRN}"Do you want to clear $(ENGINE) cache? "${C_END}"[y/n]: " && read response && if [ $${response:-'n'} != 'y' ]; then \
 			echo ${C_YEL}"The following commands are delegated to be executed by user:"${C_END}; \
-			echo "$$ $(ENGINE) system prune"; \
-			echo "$$ $(ENGINE) volume prune"; \
+			echo "$$ $(ENGINE_COMMAND) system prune"; \
+			echo "$$ $(ENGINE_COMMAND) volume prune"; \
 		else \
-			$(ENGINE) system prune -f; \
-			$(ENGINE) volume prune -f; \
+			$(ENGINE_COMMAND) system prune -f; \
+			$(ENGINE_COMMAND) volume prune -f; \
 			echo ${C_GRN}"O.K.! $(ENGINE) cache has been cleared up."${C_END}; \
 		fi \
 	fi
@@ -345,11 +346,11 @@ mailer-destroy: ## destroys completly the mailer container
         echo ${C_GRN}"O.K.! container continues with its latest status."${C_END}; \
     else \
 		cd ./platforms/$(MAILER_PLTF) && $(MAKE) clear destroy; \
-		echo -n ${C_GRN}"Do you want to clear ENGINE cache? "${C_END}"[y/n]: " && read response && if [ $${response:-'n'} != 'y' ]; then \
+		echo -n ${C_GRN}"Do you want to clear $(ENGINE) cache? "${C_END}"[y/n]: " && read response && if [ $${response:-'n'} != 'y' ]; then \
 			echo ${C_YEL}"The following command is delegated to be executed by user:"${C_END}; \
-			echo "$$ $(ENGINE) system prune"; \
+			echo "$$ $(ENGINE_COMMAND) system prune"; \
 		else \
-			$(ENGINE) system prune -f; \
+			$(ENGINE_COMMAND) system prune -f; \
 			echo ${C_GRN}"O.K.! $(ENGINE) cache has been cleared up."${C_END}; \
 		fi \
 	fi
@@ -383,7 +384,8 @@ broker-ssh: ## enters the broker container shell
 broker-start: ## starts the broker container running
 	cd ./platforms/$(BROKER_PLTF) && $(MAKE) start
 
-broker-stop: ## stops the broker container but its assets will not be destroyed
+broker-stop: ## stops the broker container but its assets will not be destroyed$(ENGINE)
+$(ENGINE)
 	cd ./platforms/$(BROKER_PLTF) && $(MAKE) stop
 
 broker-restart: ## restarts the running broker container
@@ -406,11 +408,11 @@ broker-destroy: ## destroys completly the broker container
         echo ${C_GRN}"K.O.! container has been stopped but not destroyed."${C_END}; \
     else \
 		cd ./platforms/$(BROKER_PLTF) && $(MAKE) clear destroy; \
-		echo -n ${C_GRN}"Do you want to clear ENGINE cache? "${C_END}"[y/n]: " && read response && if [ $${response:-'n'} != 'y' ]; then \
+		echo -n ${C_GRN}"Do you want to clear $(ENGINE) cache? "${C_END}"[y/n]: " && read response && if [ $${response:-'n'} != 'y' ]; then \
 			echo ${C_YEL}"The following command is delegated to be executed by user:"${C_END}; \
-			echo "$$ $(ENGINE) system prune"; \
+			echo "$$ $(ENGINE_COMMAND) system prune"; \
 		else \
-			$(ENGINE) system prune -f; \
+			$(ENGINE_COMMAND) system prune -f; \
 			echo ${C_GRN}"O.K.! $(ENGINE) cache has been cleared up."${C_END}; \
 		fi \
 	fi
