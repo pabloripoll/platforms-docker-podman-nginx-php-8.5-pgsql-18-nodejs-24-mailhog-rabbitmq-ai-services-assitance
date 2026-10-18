@@ -58,7 +58,7 @@ help: ## shows this Makefile help message
 
 port-check: ## shows this project port availability on local machine
 	echo "Checking configuration for "${C_YEL}"$(ENGINE_PLTF)"${C_END}" container:";
-	if [ -z "$($(ENGINE) lsof -i :$(ENGINE_PORT))" ]; then \
+	if [ -z "$($(ENGINE_COMMAND) lsof -i :$(ENGINE_PORT))" ]; then \
 		echo ${C_BLU}"$(ENGINE_PLTF)"${C_END}" > localhost:"${C_GRN}"$(ENGINE_PORT) is free to use."${C_END}; \
     else \
 		echo ${C_BLU}"$(ENGINE_PLTF)"${C_END}" > localhost:"${C_RED}"$(ENGINE_PORT) is busy. Update ./.env file."${C_END}; \
