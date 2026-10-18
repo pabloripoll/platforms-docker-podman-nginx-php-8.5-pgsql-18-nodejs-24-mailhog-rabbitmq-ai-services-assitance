@@ -35,8 +35,8 @@ DOCKER_MEMO=$(MAILER_MEMO)
 DOCKER_SWAP=$(MAILER_SWAP)
 DOCKER_APP_PORT=$(MAILER_APP_PORT)
 
-ROOT_DIR=$(patsubst %/,%,$(dir $(realpath $(firstword $(MAKEFILE_LIST)))))
-DIR_BASENAME=$(shell basename $(ROOT_DIR))
+DIR_ROOT=$(patsubst %/,%,$(dir $(realpath $(firstword $(MAKEFILE_LIST)))))
+DIR_BASENAME=$(shell basename $(DIR_ROOT))
 
 DOCKER_CONTAINER:=$(addsuffix -$(DOCKER_CAAS), $(DOCKER_LEAD))
 DOCKER_COMPOSE_RUN=$(DOCKER_COMPOSE) run -v --rm
