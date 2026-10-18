@@ -39,9 +39,8 @@ SQL_NAME=$(DATABASE_NAME)
 SQL_USER=$(DATABASE_USER)
 SQL_PASS=$(DATABASE_PASS)
 
-CURRENT_DIR=$(patsubst %/,%,$(dir $(realpath $(firstword $(MAKEFILE_LIST)))))
-DIR_BASENAME=$(shell basename $(CURRENT_DIR))
-ROOT_DIR=$(CURRENT_DIR)
+DIR_ROOT=$(patsubst %/,%,$(dir $(realpath $(firstword $(MAKEFILE_LIST)))))
+DIR_BASENAME=$(shell basename $(DIR_ROOT))
 
 ENGINE_CONTAINER:=$(addsuffix -$(ENGINE_CAAS), $(ENGINE_LEAD))
 ENGINE_EXEC_SSH=$(ENGINE_COMMAND) exec -it $(ENGINE_CONTAINER) sh
@@ -180,16 +179,16 @@ test-down: ## drops the side testing database
 .PHONY: sql-install sql-replace sql-backup sql-remote copy-remote
 
 sql-install: ## migrates sql file with schema / data into the container main database to init a project
-	$(ENGINE_COMMAND) exec -i $(ENGINE_CONTAINER) sh -c 'psql -d $(DATABASE_NAME) -U "$(DATABASE_USER)"' < $(ROOT_DIR)$(DATABASE_PATH)$(DATABASE_INIT)
+	$(ENGINE_COMMAND) exec -i $(ENGINE_CONTAINER) sh -c 'psql -d $(DATABASE_NAME) -U "$(DATABASE_USER)"' < $(DIR_ROOT)$(DATABASE_PATH)$(DATABASE_INIT)
 	echo ${C_YEL}"$(SERVICE_NAME) DATABASE"${C_END}" has been copied to container from "${C_BLU}"$(DATABASE_PATH)$(DATABASE_INIT)"${C_END}
 
 sql-replace: ## replaces the container main database with the latest database .sql backup file
-	$(ENGINE_COMMAND) exec -i $(ENGINE_CONTAINER) sh -c 'psql -d $(DATABASE_NAME) -U "$(DATABASE_USER)"' < $(ROOT_DIR)$(DATABASE_PATH)$(DATABASE_BACK)
+	$(ENGINE_COMMAND) exec -i $(ENGINE_CONTAINER) sh -c 'psql -d $(DATABASE_NAME) -U "$(DATABASE_USER)"' < $(DIR_ROOT)$(DATABASE_PATH)$(DATABASE_BACK)
 	echo ${C_YEL}"$(SERVICE_NAME) DATABASE"${C_END}" has been replaced from "${C_BLU}"$(DATABASE_PATH)$(DATABASE_BACK)"${C_END}
 
 sql-backup: ## copies the container main database as backup into a .sql file
 	[ -d .$(DATABASE_PATH)$(DATABASE_BACK) ] || touch .$(DATABASE_PATH)$(DATABASE_BACK)
-	$(ENGINE_COMMAND) exec $(ENGINE_CONTAINER) sh -c 'pg_dump -d $(DATABASE_NAME) -U "$(DATABASE_USER)"' > $(ROOT_DIR)$(DATABASE_PATH)$(DATABASE_BACK)
+	$(ENGINE_COMMAND) exec $(ENGINE_CONTAINER) sh -c 'pg_dump -d $(DATABASE_NAME) -U "$(DATABASE_USER)"' > $(DIR_ROOT)$(DATABASE_PATH)$(DATABASE_BACK)
 	echo ${C_YEL}"$(SERVICE_NAME) DATABASE"${C_END}" backup has been created at "${C_BLU}"$(DATABASE_PATH)$(DATABASE_BACK)"${C_END}
 
 sql-drop: ## drops the container main database but recreates the database without schema as a reset action
