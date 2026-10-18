@@ -4,9 +4,11 @@
 
 # INFRASTRUCTURE PLATFORMS
 
-[![Generic badge](https://shields.io/badge/version-1.0-blue.svg)](https://shields.io/)
+[![Generic badge](https://shields.io/badge/version-2.0-blue.svg)](https://shields.io/)
 [![Open Source? Yes!](https://badgen.net/badge/Open%20Source%20%3F/Yes%21/blue?icon=github)](./)
 [![MIT license](https://shields.io/badge/License-MIT-blue.svg)](./LICENSE)
+
+⚠️ Repository under development ⚠️
 
 # NGINX + NODE JS 24 + PHP 8.5 & POSTGRESQL 18+
 <br>
@@ -34,7 +36,8 @@ By decoupling the runtime services, this boilerplate ensures your primary applic
 - [Containers Networking](#container-networking)
 - [Platforms Setup](#platforms-setup)
 - [Platforms Startup](#platforms-startup)
-- [Using this Repository for Custom Project](#platform-usage)
+- [Use this Platform Repository for your own projects](#platforms-usage-for-projects)
+- [Projects with AI Support](#platforms-for-projects-ai-support)
 <br><br>
 
 
@@ -118,18 +121,27 @@ The automation layer dynamically adapts commands using variables defined in your
 This repository supports local development using either **Docker** or **Podman**. You can configure your preferred container engine in your root `.env` file *(copied from `.env.example`)*: 
 
 ```sh
-# ENGINE DEFINITION (docker or podman)
-CONTAINER_ENGINE=docker                                 # <- must define container engine system ------------------------------------------------------------> #
+# ENGINE DEFINITION (docker or podman) - VARIABLES FOR AUTOMATE CONTAINER SERVICES
+SUDO=sudo                                         # <- user priviledge for running engine commands, left blank if user runs it without sudo -----------> #
+ENGINE=docker                                     # <- must define container engine system ------------------------------------------------------------> #
+ENGINE_COMMAND=$(SUDO) $(ENGINE)                  # <- engine core command generator ------------------------------------------------------------------> #
+ENGINE_COMPOSE=$(SUDO) $(ENGINE) compose          # <- targets "docker compose" / "docker-compose" or "podman compose" --------------------------------> #
 
-# CONTAINER VARIABLES FOR AUTOMATION
-SUDO=sudo                                               # <- user priviledge for running engine commands, left blank if for running without sudo ------------> #
-DOCKER=$(SUDO) $(CONTAINER_ENGINE)                      # <- engine core command generator ------------------------------------------------------------------> #
-DOCKER_COMPOSE=$(SUDO) $(CONTAINER_ENGINE) compose      # <- targets "docker compose" / "docker-compose" or "podman compose" --------------------------------> #
+# CONTAINERS BASE INFORMATION FOR BUILDING WITH docker-compose.yml
+SERVICE_NAME="PLATFORMS DOCKER"                   # <- this variable will be served for automation terminal outputs -----------------------------------> #
+SERVICE_LEAD=myproj                               # <- lead abbreviation or acronym as part of the related containers naming rule ---------------------> #
+SERVICE_SLUG=dev                                  # <- instance/branch identifier (e.g., dev_a, dev_b) as part of the related containers naming rule --> #
+SERVICE_CNET=$(SERVICE_LEAD)-net-$(SERVICE_SLUG)  # <- network vairiable for container connections between each other when is required ----------------> #
+SERVICE_HOST=127.0.0.1                            # <- host machine loopback address for isolated networks --------------------------------------------> #
+
+# PLATFORMS...
+## ....
 ```
 
-These abstractions allow the root Makefile to trigger standard shortcuts (e.g., `make up`, `make down`) seamlessly across different setups.
+From the above example, the end result will be that the container will be named as `myproj-api-dev` and the network `myproj-net-dev`. **The advantages of these configurations**, is that you can have running the same project but with different purposes or different projects with the same stack on the same machine.
 
-⚠️ **A Note on Variable Naming:** To preserve backward compatibility with previous releases, this repository retains the use of `DOCKER` and `DOCKER_COMPOSE` as variable names throughout the codebase, scripts, and automation files. Rest assured, if you set `CONTAINER_ENGINE=podman`, these variables will correctly map to your **Podman setup** behind the scenes.
+Also, these abstractions allow the root Makefile to trigger standard shortcuts (e.g., `make [target]-up`, `make [target]-down`) seamlessly across different setups.
+
 
 ## Multi-Engine Architecture
 
@@ -303,66 +315,88 @@ $ sudo docker logs [container-name]
 <br><br>
 
 
-## <a id="platform-usage"></a>Use this Platform Repository for your own projects
+## <a id="platforms-usage-for-projects"></a>Use this Platform Repository for your own projects
 
 Repository directories structure overview
 ```sh
 .
-├── api-rest                    # detached repository
-│   ├── src
-│   ├── .env
-│   ├── vendor
-│   └── ...etc
-│
-├── platforms                   # remote infrastructure platforms
-│   ├── nginx-nodejs-24
-│   │   ├── docker
+├── platforms/                  # infrastructure platforms
+│   ├── nginx-nodejs-24/
+│   │   ├── docker/
 │   │   │   ├── config
 │   │   │   ├── .env
 │   │   │   ├── docker-compose.yml
 │   │   │   └── Dockerfile
 │   │   └── Makefile
 │   │
-│   ├── nginx-php-8.5
-│   │   ├── docker
+│   ├── nginx-php-8.5/
+│   │   ├── docker/
 │   │   │   ├── config
 │   │   │   ├── .env
 │   │   │   ├── docker-compose.yml
 │   │   │   └── Dockerfile
 │   │   └── Makefile
 │   │
-│   ├── pgsql-18
-│   │   ├── docker
+│   ├── pgsql-18/
+│   │   ├── docker/
 │   │   │   ├── .env
 │   │   │   ├── docker-compose.yml
 │   │   │   └── ...etc
 │   │   └── Makefile
 │   │
-│   ├── mailhog-1.0
-│   │   ├── docker
+│   ├── mailhog-1.0/
+│   │   ├── docker/
 │   │   │   ├── .env
 │   │   │   ├── docker-compose.yml
 │   │   │   └── ...etc
 │   │   └── Makefile
 │   │
-│   └── rabbitmq-4.2
-│       ├── docker
+│   └── rabbitmq-4.2/
+│       ├── docker/
 │       │   ├── .env
 │       │   ├── docker-compose.yml
 │       │   └── ...etc
 │       └── Makefile
 │
-├── resources                   # orientative documentation
+├── resources
 │   ├── automation
 │   │   ├── local
-│   │   │   ├── Makefile        # root ./
-│   │   │   └── Makefile.child  # this goes inside ./api-rest
+│   │   │   ├── Makefile        # this is the main makefile that goes in the root of this repository
+│   │   │   └── Makefile.child  # this goes inside ./services/[service-directory]
 │   │   └── remote
-│   ├── databases
+│   ├── databases/              # orientative documentation
 │   │   ├── example-init.sql
 │   │   └── example-backup.sql
-│   └── docs
+│   └── docs/                   # orientative documentation
 │       └── ...
+│
+├── services/                   # active services respositories
+│   ├── api-rest/
+│   │   ├── src/
+│   │   ├── .env
+│   │   ├── vendor/
+│   │   └── etc...
+│   ├── api-rest-ai/                        # AI Agent assistance specialized directory
+│   │   ├── .cursorrules                    # System instructions for Cursor IDE
+│   │   ├── .github/
+│   │   │   └── copilot-instructions.md     # System instructions for GitHub Copilot
+│   │   ├── mcp-configs/                    # Model Context Protocol schemas
+│   │   │   ├── postgres-mcp.json           # Bridge to inspect database schemas directly
+│   │   │   └── filesystem-mcp.json         # Scope rules for directory restrictions
+│   │   └── prompts/                        # Shared templates for onboarding tasks
+│   │       ├── 01-add-api-endpoint.md
+│   │       ├── 02-db-migration.md
+│   │       └── 03-generate-unit-test.md
+│   ├── website/
+│   │   ├── dist/
+│   │   ├── src/
+│   │   ├── config.ts
+│   │   └── etc...
+│   └── website-ai
+│       ├── .cursorrules
+│       ├── .github/
+│       ├── mcp-configs/
+│       └── prompts/
 │
 ├── .env
 ├── Makefile
@@ -442,6 +476,34 @@ Here’s a step-by-step guide for using this Platform repository along with your
 > **Note**: After new project cloned inside `./api-rest`, consider adding `./api-rest/.gitkeep` in it to prevent accidental tracking *(especially for detached repository)*.
 <br><br>
 
+## <a id="platforms-usage-for-projects"></a>Use this Platform Repository for your own projects
+
+⚠️ Block content under development ⚠️
+
+This is an excellent evolution for **Platform Containers** boilerplate blueprint. Transitioning from scattered application directories to a unified `./services` directory scales beautifully, and introducing explicit `*-ai` specialized directories is a highly forward-thinking addition for modern Platform Engineering.
+
+Here is an analysis of why this new proposal works so well, along with practical tips to implement it into your Internal Developer Platform (IDP) workflow:
+
+### Why this New Proposal is an Improvement
+
+• **Cleaner Namespace (Logical Grouping)**: Moving api-rest and website under a single ./services/ namespace declutters the root directory. It explicitly separates the infrastructure/configuration (/platforms, /resources) from the core business logic (/services).
+
+• **Context Isolation for AI Tools**: Storing prompt templates, agent configurations, context maps, or synthetic testing data inside a dedicated *-ai folder prevents cluttering the main codebase. Modern AI coding agents work best when given scoped context; this layout enforces that boundary.
+
+• **Safer Git/Detached Repo Tracking**: If a developer decides to use the Git Detached Repository approach for their production code, keeping those external repositories isolated inside ./services/ prevents main-repo tracking pollution even more reliably.
+<br>
+
+### What goes inside the *-ai directories?
+
+To make this boilerplate incredibly valuable for other developers, you can populate the api-rest-ai/ and website-ai/ directories with standard developer-agent configurations. Here is a strong recommendation for what to put inside them:
+
+• **.cursorrules or copilot-instructions.md**: Pre-baked instructions telling AI agents exactly how to format code, write tests, or use your specific architecture guidelines.
+
+• **prompts/**: Shared prompt templates for common onboarding tasks (e.g., how to add a new database migration, how to create a new API endpoint).
+
+• **mcp-configs/**: Configuration schemas if developers use Model Context Protocol (MCP) servers to bridge their IDE with external developer tools.
+
+<br><br>
 <br>
 
 ## Contributing
