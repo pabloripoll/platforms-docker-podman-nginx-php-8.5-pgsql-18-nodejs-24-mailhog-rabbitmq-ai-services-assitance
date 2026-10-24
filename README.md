@@ -32,6 +32,7 @@
 - [Projects with AI Support](#platforms-for-projects-ai-support)
 <br><br>
 
+
 ## <a id="repository-objectives"></a>Repositoy Objectives
 
 This repository serves as a multi-engine containerized infrastructure boilerplate designed to streamline local development and remote services for back-end or front-end applications. It provides a set of pre-configured, loosely coupled platform services optimized to work interchangeably with either Docker or Podman.
