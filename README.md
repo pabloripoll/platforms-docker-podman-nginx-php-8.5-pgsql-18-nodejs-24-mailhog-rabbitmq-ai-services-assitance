@@ -221,7 +221,7 @@ $ podman machine start
 
 ## <a id="containers-networking"></a>Containers Networking - Access Modes
 
-- If no application is on `./api-rest` directory *(or your custom binded directory name)* once container is up it wont provide a application and therefore NGINX will respond with an error. Copy an start-up example application or create a parking page.
+- If no application is on *e.g.* `./service/api-rest` directory *(or your custom binded directory name)* once container is up it wont provide a application and therefore NGINX will respond with an error. Copy an start-up example application or create a parking page.
 
 - Each container have a directory to set the required environment values in `./docker/.env` from `./docker/.env.example` if no GNU Make will be applied.
 
@@ -458,7 +458,7 @@ To reuse any of the `./services` directory to install your desired repository in
 
 - Clone the desired repository as a detached repository:
   ```bash
-  $ git clone git@[vcs]:[account]/[repository].git ./api-rest
+  $ git clone git@[vcs]:[account]/[repository].git ./services/api-rest
   ```
 
 - The .`services/api-rest` directory is now an **independent repository**, not tracked as a submodule in your main repo. From now on, you will be able to use git commands freely inside the .`services/api-rest` directory.
@@ -499,7 +499,7 @@ To reuse any of the `./services` directory to install your desired repository in
 | Submodule        | Tracked by main   | Inside container          | Main repo controls webapp version|
 | Detached (rec.)  | Fully independent | Local or container        | Maximum flexibility              |
 
-> **Note**: After new project cloned inside `./api-rest`, consider adding `./api-rest/.gitkeep` in it to prevent accidental tracking *(especially for detached repository)*.
+> **Note**: After new project cloned inside `./services/api-rest`, consider adding `./services/api-rest/.gitkeep` in it to prevent accidental tracking *(especially for detached repository)*.
 
 <br>
 
