@@ -7,29 +7,21 @@
 [![Generic badge](https://shields.io/badge/version-2.0-blue.svg)](https://shields.io/)
 [![Open Source? Yes!](https://badgen.net/badge/Open%20Source%20%3F/Yes%21/blue?icon=github)](./)
 [![MIT license](https://shields.io/badge/License-MIT-blue.svg)](./LICENSE)
-
-⚠️ Repository under development ⚠️
+<br><br>
 
 # NGINX + NODE JS 24 + PHP 8.5 & POSTGRESQL 18+
-<br>
 
-This repository serves as a multi-engine containerized infrastructure boilerplate designed to streamline local development and remote services for back-end or front-end applications. It provides a set of pre-configured, loosely coupled platform services optimized to work interchangeably with either Docker or Podman.
 
-It abstracts complex orchestration down to simple automation layers, allowing you to instantly spin up independent, ready-to-scale platform components.
-
-By decoupling the runtime services, this boilerplate ensures your primary application layer connects seamlessly to its supporting infrastructure components via standard local orchestration.
-
-## Included Platform Services
+## Included Platforms
 
 - APP: [NGINX + NODE JS 24](./platforms/nginx-nodejs-24/README.md)
 - API: [NGINX + PHP 8.5](./platforms/nginx-php-8.5/README.md)
 - Database: [POSTGRESQL 18+](./platforms/pgsql-18/README.md)
 - Mail Sandbox: [MAILHOG 1+](./platforms/mailhog-1/README.md)
 - Message Broker: [RABBITMQ 4+](./platforms/rabbitmq-4/README.md)
-<br><br>
+<br>
 
-
-## Index
+## Index Of Content
 
 - [Repository Objectives](#repository-objectives)
 - [Orchestration & Platform Specifics](#orchestration)
@@ -40,8 +32,15 @@ By decoupling the runtime services, this boilerplate ensures your primary applic
 - [Projects with AI Support](#platforms-for-projects-ai-support)
 <br><br>
 
-
 ## <a id="repository-objectives"></a>Repositoy Objectives
+
+This repository serves as a multi-engine containerized infrastructure boilerplate designed to streamline local development and remote services for back-end or front-end applications. It provides a set of pre-configured, loosely coupled platform services optimized to work interchangeably with either Docker or Podman.
+
+It abstracts complex orchestration down to simple automation layers, allowing you to instantly spin up independent, ready-to-scale platform components.
+
+By decoupling the runtime services, this boilerplate ensures your primary application layer connects seamlessly to its supporting infrastructure components via standard local orchestration.
+
+The boilerplate in this repository refers to sections of code, text, or configuration files that can be reused in multiple places with little or no modification.
 
 ### Key principles and goals
 
@@ -61,11 +60,31 @@ By leveraging Platform Engineering principles, this project reduces cognitive lo
 
 ### How it works
 
-- Internal Developer Platform (IDP): A dedicated platform built by the platform engineering team that provides a curated set of tools, services, and infrastructure.
+- **Internal Developer Platform (IDP)**: A dedicated platform built by the platform engineering team that provides a curated set of tools, services, and infrastructure.
 
-- Golden Paths: Predefined, optimized workflows and best practices that developers can follow to accomplish common tasks quickly and easily.
+- **Golden Paths**: Predefined, optimized workflows and best practices that developers can follow to accomplish common tasks quickly and easily.
 
-- Treating the platform as a product: Platform engineers treat their IDP like a product, with developers as their customers, to ensure it meets the needs of the organization.
+- **Treating the platform as a product**: Platform engineers treat their IDP like a product, with developers as their customers, to ensure it meets the needs of the organization.
+
+### Key Characteristics
+
+- **Non-business logic**: It does not contain your core application features or unique business rules. It is the background plumbing required to make the program run.
+
+- **Repetitive**: Developers often have to write or copy it over and over for every new project or file.
+
+- **Standardized**: It acts as a starting foundation or project scaffold.
+
+### Core Components
+
+- **Infrastructure Configuration**: Pre-configured setup files for tools like Docker or Podman, handling environment variables and platform stack definitions.
+
+- **Standard Local Stacks**: Boilerplate wrapper code to quickly spin up basic environments (e.g., PHP/MariaDB, Java/OracleDB, Python/PostgreSQL) complete with local mail sandboxes and message brokers.
+
+### Why Is It Used?
+
+- **Saves time**: It lets developers skip repetitive setup and start building unique features faster.
+
+- **Consistency**: Teams use standardized starter templates so every project follows the same architecture and rules.
 
 ### Read more:
 
@@ -76,6 +95,7 @@ By leveraging Platform Engineering principles, this project reduces cognitive lo
 - [What is platform engineering? - Microsoft](https://learn.microsoft.com/en-us/platform-engineering/what-is-platform-engineering)
 - [What is Platform engineering? - Github](https://github.com/resources/articles/what-is-platform-engineering)
 <br><br>
+
 
 ## <a id="orchestration"></a>Orchestration & Platform Specifics
 
@@ -114,7 +134,11 @@ It is highly recommended to use **GNU Make** on local to manage automated workfl
 * **Recommended:** Ensure make is installed on your host system to use shortened convenience commands.
 * **Alternative:** If make is unavailable, commands must be executed manually within their respective subdirectories.
 
-### Environment Variables for Automation
+### Ephemeral Environments
+
+The root `.env` file allows developers to leverage customizable variables to isolate parallel development environments on local or remote development and testing machines. These are often referred to as **ephemeral environments** or **feature environments**.
+
+Because these variables represent a unique instance, variant, or feature suffix rather than just a broad environment tier or a static name set directly inside the `docker-compose.yml` file, you can easily spin up and manage different versions of the same project simultaneously.
 
 The automation layer dynamically adapts commands using variables defined in your root `.env` file. These variables control how your environment invokes the runtime engine.
 
@@ -141,6 +165,7 @@ SERVICE_HOST=127.0.0.1                            # <- host machine loopback add
 From the above example, the end result will be that the container will be named as `myproj-api-dev` and the network `myproj-net-dev`. **The advantages of these configurations**, is that you can have running the same project but with different purposes or different projects with the same stack on the same machine.
 
 Also, these abstractions allow the root Makefile to trigger standard shortcuts (e.g., `make [target]-up`, `make [target]-down`) seamlessly across different setups.
+<br><br>
 
 
 ## Multi-Engine Architecture
@@ -192,6 +217,7 @@ $ podman machine start
 - [Podman Documentation](https://podman.io/docs)
 - [Podman Installation](https://podman.io/docs/installation)
 <br><br>
+
 
 ## <a id="containers-networking"></a>Containers Networking - Access Modes
 
@@ -320,7 +346,7 @@ $ sudo docker logs [container-name]
 Repository directories structure overview
 ```sh
 .
-├── platforms/                  # infrastructure platforms
+├── platforms/                              # infrastructure platforms
 │   ├── nginx-nodejs-24/
 │   │   ├── docker/
 │   │   │   ├── config
@@ -359,18 +385,19 @@ Repository directories structure overview
 │       └── Makefile
 │
 ├── resources
-│   ├── automation
-│   │   ├── local
-│   │   │   ├── Makefile        # this is the main makefile that goes in the root of this repository
-│   │   │   └── Makefile.child  # this goes inside ./services/[service-directory]
-│   │   └── remote
-│   ├── databases/              # orientative documentation
+│   ├── automation/
+│   │   ├── local/
+│   │   │   ├── Makefile                    # this is the main makefile that goes in the root of this repository
+│   │   │   └── Makefile.child              # this goes inside ./services/[service-directory]
+│   │   └── remote/                         # this directory is intended for store remote instance makefile, bash scripts, etc.
+│   │       └── ...
+│   ├── databases/                          # database init or backup scheme
 │   │   ├── example-init.sql
 │   │   └── example-backup.sql
-│   └── docs/                   # orientative documentation
+│   └── docs/                               # orientative documentation
 │       └── ...
 │
-├── services/                   # active services respositories
+├── services/                               # active services respositories
 │   ├── api-rest/
 │   │   ├── src/
 │   │   ├── .env
@@ -387,12 +414,12 @@ Repository directories structure overview
 │   │       ├── 01-add-api-endpoint.md
 │   │       ├── 02-db-migration.md
 │   │       └── 03-generate-unit-test.md
-│   ├── website/
+│   ├── application/
 │   │   ├── dist/
 │   │   ├── src/
 │   │   ├── config.ts
 │   │   └── etc...
-│   └── website-ai
+│   └── application-ai/
 │       ├── .cursorrules
 │       ├── .github/
 │       ├── mcp-configs/
@@ -404,30 +431,29 @@ Repository directories structure overview
 ```
 <br>
 
-Set up platforms
-- Copy `.env.example` to `.env` and adjust settings (rest api port, database port, mail service port, container RAM usage, etc.)
+Setup the by platforms coping `.env.example` to `.env` and adjust settings (rest api port, database port, mail service port, container RAM usage, etc.)
 <br>
 
-### Managing the `./application` and `./api-rest` directories: Submodule vs Detached Repository
+### Managing the services directories by Submodule vs Detached Repository
 
-To remove the `./application` and `./api-rest` default installation contents and install your desired repository inside it, there are two alternatives for managing both the platform and apirest repositories independently *(Do the same with both directories)*:
+To reuse any of the `./services` directory to install your desired repository inside, there are two alternatives for managing both the platform and your repository independently. Here’s a step-by-step guide for using this Platform repository along with your own REST API repository:
 
-Here’s a step-by-step guide for using this Platform repository along with your own REST API repository:
+- E.g., remove the existing `./services/api-rest` directory contents from local and from git cache.
 
-- Remove the existing `./api-rest` directory contents from local and from git cache
-- Install your desired repository inside `./api-rest`
-- Choose between Git submodule and detached repository approaches
+- Install your desired repository inside `./services/api-rest`.
 
-#### 1. **GIT Detached Repository (Recommended)**
+- Choose between Git submodule and detached repository approaches:
+
+#### 1. GIT Detached Repository *(Recommended)*
 
 > Git commands can be executed **whether from inside the container or on the local machine**.
 
-- Remove `./api-rest` from local and git cache:
+- Remove `./service/api-rest` from local and git cache:
   ```bash
-  $ git rm -r --cached -- "api-rest/*" ":(exclude)api-rest/.gitkeep"
+  $ git rm -r --cached -- "service/api-rest/*" ":(exclude)service/api-rest/.gitkeep"
   $ git clean -fd
   $ git reset --hard
-  $ git commit -m "maint: api-rest directory and its default installation removed"
+  $ git commit -m "maint: service api-rest directory and its default installation removed"
   ```
 
 - Clone the desired repository as a detached repository:
@@ -435,76 +461,126 @@ Here’s a step-by-step guide for using this Platform repository along with your
   $ git clone git@[vcs]:[account]/[repository].git ./api-rest
   ```
 
-- The `./api-rest` directory is now an **independent repository**, not tracked as a submodule in your main repo. You can use `git` commands freely inside `./api-rest` from anywhere.
+- The .`services/api-rest` directory is now an **independent repository**, not tracked as a submodule in your main repo. From now on, you will be able to use git commands freely inside the .`services/api-rest` directory.
 <br>
 
-#### 2. **GIT Sub-module**
+#### 2. GIT Sub-module
 
 > Git commands can be executed **only from inside the container**.
 
-- Remove `./api-rest` from local and git cache:
+- Remove `./services/api-rest` from local and git cache:
   ```bash
-  $ rm -rfv ./api-rest/* ./api-rest/.[!.]*$
+  $ rm -rfv ./services/api-rest/* ./services/api-rest/.[!.]*$
   $ git rm -r --cached apirest
   $ git commit -m "maint: apirest directory and its default installation removed"
   ```
 
 - Add the desired repository as a submodule:
   ```bash
-  $ git submodule add git@[vcs]:[account]/[repository].git ./api-rest
+  $ git submodule add git@[vcs]:[account]/[repository].git ./services/api-rest
   $ git commit -m "maint: apirest as a git submodule added"
   ```
 
 - To update submodule contents:
   ```bash
-  $ cd ./api-rest
+  $ cd ./services/api-rest
   $ git pull origin main  # or desired branch
   ```
 
-- To initialize/update submodules after `git clone`:
+- To initialize or update submodules after `git clone`:
   ```bash
   $ git submodule update --init --recursive
   ```
 
-#### **Summary Table**
+#### Summary Table
 
-| Approach         | Repo independence | Where to run git commands | Use case                        |
-|------------------|------------------|--------------------------|----------------------------------|
-| Submodule        | Tracked by main  | Inside container         | Main repo controls webapp version|
-| Detached (rec.)  | Fully independent| Local or container       | Maximum flexibility              |
+| Approach         | Repo independence | Where to run git commands | Use case                         |
+|------------------|-------------------|---------------------------|----------------------------------|
+| Submodule        | Tracked by main   | Inside container          | Main repo controls webapp version|
+| Detached (rec.)  | Fully independent | Local or container        | Maximum flexibility              |
 
 > **Note**: After new project cloned inside `./api-rest`, consider adding `./api-rest/.gitkeep` in it to prevent accidental tracking *(especially for detached repository)*.
-<br><br>
+
+<br>
+
 
 ## <a id="platforms-usage-for-projects"></a>Use this Platform Repository for your own projects
 
-⚠️ Block content under development ⚠️
+Transitioning from scattered application directories to a unified `./services/` workspace scales your environment beautifully. Introducing explicit `*-ai` specialized directories provides a forward-thinking setup for modern Platform Engineering, optimizing context boundaries for automated tooling.
 
-This is an excellent evolution for **Platform Containers** boilerplate blueprint. Transitioning from scattered application directories to a unified `./services` directory scales beautifully, and introducing explicit `*-ai` specialized directories is a highly forward-thinking addition for modern Platform Engineering.
+### Why this Architecture is an Improvement
 
-Here is an analysis of why this new proposal works so well, along with practical tips to implement it into your Internal Developer Platform (IDP) workflow:
+• **Cleaner Namespace (Logical Grouping)**: Moving services like `./services/api-rest` under a unified workspace declutters the root directory. It cleanly isolates core business logic from underlying infrastructure configuration (`/platforms`, `/resources`).
 
-### Why this New Proposal is an Improvement
+• **Context Isolation for AI Tools**: Storing prompt templates, agent configurations, context maps, or synthetic testing data inside dedicated `*-ai` folders prevents cluttering the main application codebases. Modern AI coding agents work best when given scoped context; this layout strictly enforces that operational boundary.
 
-• **Cleaner Namespace (Logical Grouping)**: Moving api-rest and website under a single ./services/ namespace declutters the root directory. It explicitly separates the infrastructure/configuration (/platforms, /resources) from the core business logic (/services).
+• **Safer Git/Detached Repo Tracking**: If you use the Git Detached Repository approach for your application services, keeping those external repositories isolated inside `./services/` prevents main-repo tracking pollution even more reliably.
 
-• **Context Isolation for AI Tools**: Storing prompt templates, agent configurations, context maps, or synthetic testing data inside a dedicated *-ai folder prevents cluttering the main codebase. Modern AI coding agents work best when given scoped context; this layout enforces that boundary.
+### What goes inside the `*-ai` directories?
 
-• **Safer Git/Detached Repo Tracking**: If a developer decides to use the Git Detached Repository approach for their production code, keeping those external repositories isolated inside ./services/ prevents main-repo tracking pollution even more reliably.
-<br>
+To maximize the value of this boilerplate, populate the `./services/api-rest-ai/` and `./services/website-ai/` directories with standardized developer-agent configurations:
 
-### What goes inside the *-ai directories?
+• **`.cursorrules` or `copilot-instructions.md`**: Pre-baked instructions telling AI agents exactly how to format code, write tests, or use your specific architecture guidelines.
 
-To make this boilerplate incredibly valuable for other developers, you can populate the api-rest-ai/ and website-ai/ directories with standard developer-agent configurations. Here is a strong recommendation for what to put inside them:
+• **`prompts/`**: Shared prompt templates for common onboarding tasks (e.g., how to add a new database migration, how to create a new API endpoint).
 
-• **.cursorrules or copilot-instructions.md**: Pre-baked instructions telling AI agents exactly how to format code, write tests, or use your specific architecture guidelines.
+• **`mcp-configs/`**: Configuration schemas if you use Model Context Protocol (MCP) servers to bridge your IDE with external developer tools.
 
-• **prompts/**: Shared prompt templates for common onboarding tasks (e.g., how to add a new database migration, how to create a new API endpoint).
+### Service Volume Mapping & Multi-Engine Behavior
 
-• **mcp-configs/**: Configuration schemas if developers use Model Context Protocol (MCP) servers to bridge their IDE with external developer tools.
+The underlying Docker or Podman Compose engine can bind multiple local directories into a single container by declaring separate entries under the `volumes` key. This allows you to mount application source code and AI context directories exactly where they are needed.
 
+#### Docker Compose Configuration
+
+You can map multiple local folders to distinct destination paths within the same container:
+```yaml
+services:
+  api-rest-ai:
+    image: nginx:alpine
+    volumes:
+      # Bind Mount 1: Core application business logic
+      - ./services/api-rest:/var/www/html
+      # Bind Mount 2: Isolated AI assistance schemas
+      - ./services/api-rest-ai:/var/www/ai-context
+```
+
+> ⚠️ **Note**: You cannot bind mount two different local directories onto the exact same destination path inside the container simultaneously. The subsequent mount will overwrite or obscure the previous one.
+
+#### Multi-Engine Compatibility: Podman Setup
+
+Podman natively supports this structure. You can run the exact same `docker-compose.yml` configuration using two common workflows:
+
+1. **Podman Compose (`podman-compose`)**: A Python-based utility that natively reads your Compose blueprints and recreates the environment using Podman commands.
+
+2. **Native Docker Compose v2**: Modern versions of Podman (3.0+) provide a local UNIX socket that allows the official `docker compose` binary to communicate directly with the Podman backend instead of a Docker daemon.
+
+#### The Podman Gotcha: SELinux Permissions
+
+If you are running Podman on an enterprise Linux distribution (such as RHEL, Fedora, or CentOS) with SELinux enabled, you will likely encounter a `Permission Denied` error inside the container when it tries to read the host directories.
+
+To fix this, append the **`:Z`** or **`:z`** flag to your volume definitions so Podman automatically adjusts the host file security contexts:
+```yaml
+services:
+  api-rest-ai:
+    image: nginx:alpine
+    volumes:
+      # ':Z' configures a private, unshared label exclusive to this container
+      - ./services/api-rest:/var/www/html:Z
+      # ':z' configures a shared label if multiple containers require access
+      - ./services/api-rest-ai:/var/www/ai-context:z
+```
+
+### Why Decouple the AI Assistance Layer?
+
+Instead of mixing AI prompt files, IDE configurations, and security credentials directly inside your application runtime directory, this architecture structurally isolates them.
+
+• **Zero Production Payload Pollution**: Keeping your orchestration or prompt files (like `.cursorrules`, MCP server configs, or onboarding templates) out of `./services/api-rest` ensures that your production builds, CI/CD artifacts, and vendor dependencies stay completely lightweight. Your production environment never pulls in development-only AI assets.
+
+• **Strict Token & Security Boundaries**: AI tools often require custom environment variables or third-party bridge configurations. Isolating these configurations within an independent `*-ai` repository folder prevents secrets from accidentally leaking into your public application codebase or committing local token contexts into production Git histories.
+
+• **Parallel Automation & Execution**: By mapping the `*-ai` directory to a dedicated, independent path inside the container environment, you can run isolated background workers, testing frameworks, or automated linting agents alongside your main API application loop without causing namespace collisions or file-lock issues.
 <br><br>
-<br>
+
 
 ## Contributing
 
@@ -516,6 +592,7 @@ Contributions are very welcome! Please open issues or submit PRs for improvement
 4. Push to the branch (`git push origin feature/YourFeature`)
 5. Create a new Pull Request
 <br><br>
+
 
 ## License
 
