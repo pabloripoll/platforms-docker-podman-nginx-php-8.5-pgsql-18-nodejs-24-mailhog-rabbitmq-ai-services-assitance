@@ -521,11 +521,12 @@ Transitioning from scattered application directories to a unified `./services/` 
 
 To maximize the value of this boilerplate, populate the `./services/api-rest-ai/` and `./services/website-ai/` directories with standardized developer-agent configurations:
 
-• **`.cursorrules` or `copilot-instructions.md`**: Pre-baked instructions telling AI agents exactly how to format code, write tests, or use your specific architecture guidelines.
+- **`.cursorrules`, `copilot-instructions.md` or `CLAUDE.md`**: Pre-baked instructions telling AI agents exactly how to format code, write tests, or use your specific architecture guidelines.
+    - Alternatively, if you want to include the universal cross-tool standard that Claude Code also supports, you can mention AGENTS.md
 
-• **`prompts/`**: Shared prompt templates for common onboarding tasks (e.g., how to add a new database migration, how to create a new API endpoint).
+- **`prompts/`**: Shared prompt templates for common onboarding tasks (e.g., how to add a new database migration, how to create a new API endpoint).
 
-• **`mcp-configs/`**: Configuration schemas if you use Model Context Protocol (MCP) servers to bridge your IDE with external developer tools.
+- **`mcp-configs/`**: Configuration schemas if you use Model Context Protocol (MCP) servers to bridge your IDE with external developer tools.
 
 ### Service Volume Mapping & Multi-Engine Behavior
 
